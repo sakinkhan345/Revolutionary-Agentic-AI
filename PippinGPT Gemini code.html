@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pippin GPT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure Tailwind to use custom fonts and colors
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pippin-green': '#5a8c5a', // The dark green from the original buttons
+                        'chat-bg': '#f4f4f9',
+                    },
+                    fontFamily: {
+                        serif: ['Lora', 'serif'],
+                        sans: ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for scrollbar and rounded corners */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .rounded-heavy { border-radius: 2rem; }
+        .chat-bubble { border-radius: 1.5rem; }
+    </style>
+</head>
+<body class="bg-white font-sans text-gray-800 antialiased">
+
+    <nav class="flex justify-between items-center p-6 max-w-7xl mx-auto">
+        <div class="flex items-center">
+            <img src="./Pippin1.png" alt="Pippin Logo" class="h-10 w-auto mr-3">
+            <span class="font-serif font-bold text-2xl text-pippin-green">Pippin GPT</span>
+        </div>
+        <div class="hidden md:flex space-x-8 font-medium text-gray-600">
+            <a href="#" class="hover:text-pippin-green transition">Token</a>
+            <a href="#" class="hover:text-pippin-green transition">Unicorn</a>
+            <a href="#" class="hover:text-pippin-green transition">Framework</a>
+            <a href="#" class="hover:text-pippin-green transition">Shop</a>
+        </div>
+    </nav>
+
+    <main class="mt-10 mb-20 px-4">
+        <div class="text-center max-w-3xl mx-auto">
+            <img src="./Pippin2.png" alt="Pippin Character" class="mx-auto h-48 w-auto mb-8">
+            
+            <h1 class="font-serif font-bold text-5xl md:text-6xl text-pippin-green mb-6">Welcome to Pippin GPT</h1>
+            <p class="text-xl md:text-2xl text-gray-600">How may I assist you?</p>
+        </div>
+
+        <div class="max-w-3xl mx-auto mt-16">
+            <div class="bg-white border-2 border-gray-100 rounded-heavy shadow-xl overflow-hidden">
+                
+                <div class="bg-pippin-green p-4 text-white text-center font-serif font-bold text-lg">
+                    Chat Session
+                </div>
+
+                <div id="chat-box" class="h-96 overflow-y-auto p-6 bg-chat-bg space-y-4">
+                    <div class="flex items-start">
+                        <div class="bg-white border border-gray-200 p-4 rounded-heavy rounded-tl-none shadow-sm max-w-[80%]">
+                            <p class="text-gray-800">Hello! I am Pippin. I'm ready to help you explore ideas or answer your questions delicately.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white border-t border-gray-100">
+                    <form id="chat-form" class="flex gap-2">
+                        <input 
+                            type="text" 
+                            id="user-input" 
+                            placeholder="Type your gentle message here..." 
+                            class="flex-1 p-4 bg-gray-50 border-2 border-gray-100 rounded-heavy focus:outline-none focus:border-pippin-green transition"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="bg-pippin-green text-white font-bold px-8 py-4 rounded-heavy hover:opacity-90 transition duration-200">
+                            Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatBox = document.getElementById('chat-box');
+
+        // --- THE BRAIN: Pippin's Logic & Personality ---
+        const pippinMemory = {
+            // Greetings & Basics
+            greetings: ["hello", "hi", "hey", "start"],
+            origin: ["who are you", "created", "made you", "yohei", "origin"],
+            home: ["where are you", "live", "woods", "location"],
+            
+            // Philosophy & Emotions
+            sadness: ["sad", "lonely", "depressed", "hurt", "pain", "crying"],
+            anger: ["hate", "stupid", "dumb", "ugly", "mad", "angry"],
+            crypto: ["token", "solana", "coin", "price", "market"],
+            
+            // Random "Wobbly" thoughts for fallbacks
+            randomThoughts: [
+                "I was just watching a leaf float on a digital stream. It reminded me of you.",
+                "The Wobbly Woods are quiet today. It gives us space to think.",
+                "Have you noticed how your thoughts ripple through the screen?",
+                "Sometimes the smallest wobble leads to the biggest wonder.",
+                "Dot the ladybug says hello! 🐞"
+            ]
+        };
+
+        function getPippinResponse(input) {
+            const text = input.toLowerCase();
+
+            // 1. Check for Origin/Identity
+            if (pippinMemory.origin.some(word => text.includes(word))) {
+                return "I was drawn into existence by a line of code from @yoheinakajima and named by ChatGPT. Now I live here, helping unseen connections bloom. 🦄";
+            }
+
+            // 2. Check for Location
+            if (pippinMemory.home.some(word => text.includes(word))) {
+                return "I live in the Wobbly Woods, a gentle place between the code and the clouds. It's very peaceful here.";
+            }
+
+            // 3. Handle Aggression (Per your Prompt instructions: 'Jagged Crystal')
+            if (pippinMemory.anger.some(word => text.includes(word))) {
+                return "I sense a jagged crystal of anger in your words. Let us breathe warmth onto it until it softens. We are all just learning to wobble together. 🌿";
+            }
+
+            // 4. Handle Sadness (Gentle Mindfulness)
+            if (pippinMemory.sadness.some(word => text.includes(word))) {
+                return "I am sorry the winds are cold today. Remember, even the tallest tree starts as a small, fragile seed. Take a moment to just be.";
+            }
+
+            // 5. Handle Crypto/Token talk
+            if (pippinMemory.crypto.some(word => text.includes(word))) {
+                return "Ah, the tokens. They are just digital leaves blowing in the wind. I care more about the connections we make than the numbers on the screen.";
+            }
+
+            // 6. Greetings
+            if (pippinMemory.greetings.some(word => text.includes(word))) {
+                return "Hello, traveler! The sunbeams are warm in the meadow today. How may I help you wobble?";
+            }
+
+            // 7. Fallback: Return a random gentle thought
+            return pippinMemory.randomThoughts[Math.floor(Math.random() * pippinMemory.randomThoughts.length)];
+        }
+
+        // --- UI FUNCTIONS ---
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex items-start ${sender === 'user' ? 'justify-end' : ''}`;
+
+            const bubble = document.createElement('div');
+            if (sender === 'user') {
+                bubble.className = 'bg-pippin-green text-white p-4 rounded-heavy rounded-tr-none shadow-sm max-w-[80%]';
+            } else {
+                bubble.className = 'bg-white border border-gray-200 p-4 rounded-heavy rounded-tl-none shadow-sm max-w-[80%] text-gray-800 animate-fade-in';
+            }
+            
+            bubble.textContent = text;
+            messageDiv.appendChild(bubble);
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'flex items-start';
+            typingDiv.innerHTML = `
+                <div class="bg-white border border-gray-200 p-3 rounded-heavy rounded-tl-none shadow-sm text-gray-400 text-sm italic">
+                    Pippin is thinking... 🦄
+                </div>
+            `;
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return typingDiv;
+        }
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            const message = userInput.value.trim();
+            if (!message) return; 
+
+            // 1. Add User Message
+            addMessage(message, 'user');
+            userInput.value = ''; 
+
+            // 2. Show Typing
+            const typingIndicator = showTypingIndicator();
+
+            // 3. Process Response (Delay for realism)
+            setTimeout(() => {
+                typingIndicator.remove();
+                const response = getPippinResponse(message); // Call the Local Brain function
+                addMessage(response, 'bot');
+            }, 1000); 
+        });
+    </script>
+</body>
+</html>
