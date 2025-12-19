@@ -40,17 +40,16 @@ The chatbot's logic is defined in the pippinMemory object inside the <script> ta
 
 1. Adding New Keywords
 Find the pippinMemory object in the code:
-```
-JavaScript
 
+``` JavaScript
 const pippinMemory = {
     // ... existing categories
     greetings: ["hello", "hi", "hey"],
     
     // ADD YOUR NEW CATEGORY HERE:
     food: ["hungry", "eat", "snack", "cookie"], 
-};
-```
+};```
+
 2. Adding the Response Logic
 Scroll down to the getPippinResponse(input) function and add a new if statement:
 ```
